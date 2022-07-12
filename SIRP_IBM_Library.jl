@@ -602,7 +602,7 @@ function IBM_animation(t_end, grid, vars, params; every_frame=1, ms=8, clims=(0,
     
 end
 
-function IBM_animation_fast(t_end, grid, vars, params; every_frame=1)
+function IBM_animation_fast(t_end, grid, vars, params; every_frame=1, color="default", size=(1000, 800))
     
     t = 0
     
@@ -621,8 +621,14 @@ function IBM_animation_fast(t_end, grid, vars, params; every_frame=1)
     
     for i in 1 : length(X_S)
        
-        Mp[X_S[i], Y_S[i]] = 1
+        Mp[X_S[i], Y_S[i]] = 2
         
+    end
+    
+    for i in 1 : length(X_I)
+
+        Mp[X_I[i], Y_I[i]] = 1
+
     end
     
     for i in 1 : length(X_R)
@@ -631,9 +637,9 @@ function IBM_animation_fast(t_end, grid, vars, params; every_frame=1)
         
     end
 
-    p1 = heatmap(Mp)
+    p1 = heatmap(Mp, color=color)
     
-    plot(p1, size=(1000, 800))
+    plot(p1, size=size)
     
     anim = @animate for i in 1 : 1000000 
     
@@ -668,7 +674,13 @@ function IBM_animation_fast(t_end, grid, vars, params; every_frame=1)
 
         for i in 1 : length(X_S)
 
-            Mp[X_S[i], Y_S[i]] = 1
+            Mp[X_S[i], Y_S[i]] = 2
+
+        end
+        
+        for i in 1 : length(X_I)
+
+            Mp[X_I[i], Y_I[i]] = 1
 
         end
 
@@ -678,9 +690,9 @@ function IBM_animation_fast(t_end, grid, vars, params; every_frame=1)
 
         end
 
-        p1 = heatmap(Mp)
+        p1 = heatmap(Mp, color=color)
         
-        plot(p1, size=(1000, 800))
+        plot(p1, size=size)
         
     end every every_frame
     
