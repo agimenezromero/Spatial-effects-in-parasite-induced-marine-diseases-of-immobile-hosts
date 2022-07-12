@@ -1,4 +1,5 @@
 using StatsBase
+using Plots
 
 struct Grid{T <: Integer}
    
@@ -498,5 +499,191 @@ function IBM_final_vars(t_end, grid, vars, params)
     end
     
     return vars.S, vars.I, vars.R, vars.P
+    
+end
+
+function IBM_animation(t_end, grid, vars, params; every_frame=1, ms=8, clims=(0, 100))
+    
+    S_t = [length(vars.S)]
+    I_t = [length(vars.I)]
+    R_t = [length(vars.R)]
+    P_t = [sum(vars.P)]
+    
+    time = [0.0]
+
+    t = 0
+    
+    #Initialize plots
+    M = reshape(vars.P, (grid.x, grid.y))
+    
+    X_S, Y_S = get_xy_positions(M, vars.S)
+    X_I, Y_I = get_xy_positions(M, vars.I)
+    X_R, Y_R = get_xy_positions(M, vars.R)
+
+    N_P = sum(vars.P)
+
+    N_S = length(vars.S)
+    N_I = length(vars.I)
+    N_R = length(vars.R)
+
+    p1 = heatmap(M, c=:blues, clims=clims)
+    
+    scatter!(X_S, Y_S, xlim=(0.5, x+0.5), ylim=(0.5, y+0.5), color=:green3, m=:v, ms=ms, label="")
+    scatter!(X_I, Y_I, xlim=(0.5, x+0.5), ylim=(0.5, y+0.5), color=:red, m=:v, ms=ms, label="")
+    scatter!(X_R, Y_R, xlim=(0.5, x+0.5), ylim=(0.5, y+0.5), color=:black, m=:v, ms=ms, label="")
+    
+    p2 = plot(time, P_t, label="P", color=:deepskyblue)
+    
+    p3 = plot(time, [S_t I_t R_t], color=[:green3 :red :black], labels=["S" "I" "R"], legend=:topleft)
+    
+    plot(p1, p2, p3, layout=@layout[a [b ; c]], size=(1200, 500))
+    
+    reactions = [Pinna_death, parasite_production, parasite_death, infect_Pinna, parasite_mobility]
+
+    orders = [1, 2, 3, 4, 5]
+    
+    anim = @animate for i in 1 : 1000000 
+    
+        if t >= t_end
+        
+            break
+        
+        end
+        
+        #Compute total rate
+        tau, W = compute_waiting_time(vars, params)
+        
+        if tau < 0 || (length(vars.I) == 0 && sum(vars.P) == 0)
+            
+            break
+            
+        end
+
+        #Choose event to happen
+        reactions, orders = choose_apply_event(reactions, orders, W, grid, params, vars)
+
+        t += tau
+        
+        #Plot
+        M = reshape(vars.P, (grid.x, grid.y))
+            
+        X_S, Y_S = get_xy_positions(M, vars.S)
+        X_I, Y_I = get_xy_positions(M, vars.I)
+        X_R, Y_R = get_xy_positions(M, vars.R)
+
+        N_P = sum(vars.P)
+
+        N_S = length(vars.S)
+        N_I = length(vars.I)
+        N_R = length(vars.R)
+        
+        append!(S_t, N_S)
+        append!(I_t, N_I)
+        append!(R_t, N_R)
+        append!(P_t, N_P)
+        
+        append!(time, t)
+        
+        p1 = heatmap(M, c=:blues, clims=clims)
+        
+        scatter!(X_S, Y_S, xlim=(0.5, x+0.5), ylim=(0.5, y+0.5), color=:green3, m=:v, ms=ms, label="")
+        scatter!(X_I, Y_I, xlim=(0.5, x+0.5), ylim=(0.5, y+0.5), color=:red, m=:v, ms=ms, label="")
+        scatter!(X_R, Y_R, xlim=(0.5, x+0.5), ylim=(0.5, y+0.5), color=:black, m=:v, ms=ms, label="")
+        
+        p2 = plot(time, P_t, color=:deepskyblue, lw=3, label="P", legend=:none)
+        
+        p3 = plot(time, [S_t I_t R_t], color=[:green3 :red :black], lw=3, legend=:none)
+        
+        plot(p1, p2, p3, layout=@layout[a [b ; c]], size=(1200, 500))
+        
+    end every every_frame
+    
+    return anim
+    
+end
+
+function IBM_animation_fast(t_end, grid, vars, params; every_frame=1)
+    
+    t = 0
+    
+    reactions = [Pinna_death, parasite_production, parasite_death, infect_Pinna, parasite_mobility]
+
+    orders = [1, 2, 3, 4, 5]
+    
+    #Initialize plots
+    M = reshape(vars.P, (grid.x, grid.y))
+    
+    X_S, Y_S = get_xy_positions(M, vars.S)
+    X_I, Y_I = get_xy_positions(M, vars.I)
+    X_R, Y_R = get_xy_positions(M, vars.R)
+
+    Mp = zeros(grid.x, grid.y)
+    
+    for i in 1 : length(X_S)
+       
+        Mp[X_S[i], Y_S[i]] = 1
+        
+    end
+    
+    for i in 1 : length(X_R)
+       
+        Mp[X_R[i], Y_R[i]] = -1
+        
+    end
+
+    p1 = heatmap(Mp)
+    
+    plot(p1, size=(1000, 800))
+    
+    anim = @animate for i in 1 : 1000000 
+    
+        if t >= t_end
+        
+            break
+        
+        end
+        
+        #Compute total rate
+        tau, W = compute_waiting_time(vars, params)
+        
+        if tau < 0 || (length(vars.I) == 0 && sum(vars.P) == 0)
+            
+            break
+            
+        end
+
+        #Choose event to happen
+        reactions, orders = choose_apply_event(reactions, orders, W, grid, params, vars)
+
+        t += tau
+        
+        #Plot
+        M = reshape(vars.P, (grid.x, grid.y))
+            
+        X_S, Y_S = get_xy_positions(M, vars.S)
+        X_I, Y_I = get_xy_positions(M, vars.I)
+        X_R, Y_R = get_xy_positions(M, vars.R)
+
+        Mp = zeros(grid.x, grid.y)
+
+        for i in 1 : length(X_S)
+
+            Mp[X_S[i], Y_S[i]] = 1
+
+        end
+
+        for i in 1 : length(X_R)
+
+            Mp[X_R[i], Y_R[i]] = -1
+
+        end
+
+        p1 = heatmap(Mp)
+        
+        plot(p1, size=(1000, 800))
+        
+    end every every_frame
+    
+    return anim
     
 end
