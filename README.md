@@ -123,6 +123,8 @@ plot(time_plot, [S_f_plot I_f_plot R_f_plot P_f_plot], lw=5, color=["green" "red
 Model initialised with R_0:5.0
 14.590865 seconds (34.70 M allocations: 10.822 GiB, 6.05% gc time, 13.28% compilation time)
 
+![example](https://github.com/agimenezromero/Spatial-effects-in-parasite-induced-marine-diseases-of-immobile-hosts/blob/main/Figures/example.png)
+
 # Animation 
 
 ## "Fast" animation (only hosts are shown)
@@ -174,6 +176,8 @@ Saving animation...
 │   fn = /home/alex/Pinna Nobilis/Stochastic models/IBM_anim_P_100_L_30_κ_1.0_.gif
 └ @ Plots /home/alex/.julia/packages/Plots/Ye1xf/src/animation.jl:114
 
+![Animation1](https://github.com/agimenezromero/Spatial-effects-in-parasite-induced-marine-diseases-of-immobile-hosts/blob/main/Figures/IBM_anim_P_100_L_30_%CE%BA_1.0_.gif)
+
 ## Complete animation
 
 In this animation we show changes in hosts states, parasite spread and population dynamics, but the computational time is larger. 
@@ -221,6 +225,8 @@ name = string("IBM_anim_P_", P0, "_L_", x, "_κ_", params.rates[5], "_.gif")
     ┌ Info: Saved animation to 
     │   fn = /home/alex/Pinna Nobilis/Stochastic models/IBM_anim_P_100_L_20_κ_1.0_.gif
     └ @ Plots /home/alex/.julia/packages/Plots/Ye1xf/src/animation.jl:114
+
+![Anim2](https://github.com/agimenezromero/Spatial-effects-in-parasite-induced-marine-diseases-of-immobile-hosts/blob/main/Figures/IBM_anim_P_100_L_20_%CE%BA_1.0_.gif)
 
 ## Custom host spatial setting
 
@@ -299,3 +305,5 @@ Saving animation...
 ┌ Info: Saved animation to 
 │   fn = /home/alex/Pinna Nobilis/Stochastic models/IBM_anim_P_200_L_30_κ_1.0_obstacle.gif
 └ @ Plots /home/alex/.julia/packages/Plots/Ye1xf/src/animation.jl:114
+
+![Anim3](https://github.com/agimenezromero/Spatial-effects-in-parasite-induced-marine-diseases-of-immobile-hosts/blob/main/Figures/IBM_anim_P_200_L_30_%CE%BA_1.0_obstacle.gif)
