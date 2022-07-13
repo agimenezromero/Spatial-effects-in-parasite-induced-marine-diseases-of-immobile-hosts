@@ -13,6 +13,9 @@ Marine infectious diseases are more prevalent in recent times due to climate cha
   - Plots (for animations, but not necessary to run the simulations)
   
 ## Tutorial
+
+**DISCLAIMER:** This is a tutorial to show how to use the library provided in this repository, and can be run in a standard computer. On the other hand, all figures in the paper are reproducible using this code, although the computational time needed might be extremly large for some of them. For instance, the phase diagram shown in Figure 4 was obtained after 1-2 weeks of computation in a cluster using distributed computing (each pixel correspond to a simulation averaging over 1000 realisations paralelised with 10 cores. Furthermore, taking advantage of the cluster, several of these pixeles could be computed at the same time, in parallel). Consequently, trying to reproduce this figure in a single machine and without parallel computing could take many months of computation.
+
 ```julia
 #Load IBM library
 include("SIRP_IBM_Library.jl")
