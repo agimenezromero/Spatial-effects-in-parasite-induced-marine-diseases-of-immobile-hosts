@@ -121,6 +121,7 @@ plot(time_plot, [S_f_plot I_f_plot R_f_plot P_f_plot], lw=5, color=["green" "red
     ylabel="Nº of individuals", legend=:right, size=(800, 600), tickfontsize=14)
 ```
 Model initialised with R_0:5.0
+
 14.590865 seconds (34.70 M allocations: 10.822 GiB, 6.05% gc time, 13.28% compilation time)
 
 ![example](https://github.com/agimenezromero/Spatial-effects-in-parasite-induced-marine-diseases-of-immobile-hosts/blob/main/Figures/example.png)
@@ -166,11 +167,12 @@ name = string("IBM_anim_P_", P0, "_L_", x, "_κ_", params.rates[5], "_.gif")
 ```
 
 Model initialised with R_0:3.75
- 53.820113 seconds (140.98 M allocations: 10.129 GiB, 7.68% gc time, 7.52% compilation time)
+
+53.820113 seconds (140.98 M allocations: 10.129 GiB, 7.68% gc time, 7.52% compilation time)
 
 Saving animation...
-  5.986004 seconds (1.44 M allocations: 79.455 MiB, 9.01% compilation time)
 
+5.986004 seconds (1.44 M allocations: 79.455 MiB, 9.01% compilation time)
 
 ┌ Info: Saved animation to 
 │   fn = /home/alex/Pinna Nobilis/Stochastic models/IBM_anim_P_100_L_30_κ_1.0_.gif
@@ -215,11 +217,13 @@ name = string("IBM_anim_P_", P0, "_L_", x, "_κ_", params.rates[5], "_.gif")
 @time gif(anim, name, fps=100)
 ```
 
-    Model initialised with R_0:3.75
-    254.217243 seconds (177.24 M allocations: 29.603 GiB, 61.74% gc time, 0.30% compilation time)
+Model initialised with R_0:3.75
+
+254.217243 seconds (177.24 M allocations: 29.603 GiB, 61.74% gc time, 0.30% compilation time)
     
-    Saving animation...
-      3.517080 seconds (568 allocations: 43.641 KiB)
+Saving animation...
+      
+3.517080 seconds (568 allocations: 43.641 KiB)
 
 
     ┌ Info: Saved animation to 
@@ -296,10 +300,11 @@ name = string("IBM_anim_P_", P0, "_L_", x, "_κ_", params.rates[5], "_obstacle.g
 
 @time gif(anim, name, fps = 100)
 ```
- 44.496868 seconds (56.60 M allocations: 4.309 GiB, 52.90% gc time)
+44.496868 seconds (56.60 M allocations: 4.309 GiB, 52.90% gc time)
 
 Saving animation...
-  2.660894 seconds (536 allocations: 42.531 KiB)
+
+2.660894 seconds (536 allocations: 42.531 KiB)
 
 
 ┌ Info: Saved animation to 
