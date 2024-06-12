@@ -1,4 +1,4 @@
-# Spatial-effects-in-parasite-produced-marine-diseases
+# Spatial effects in parasite-produced marine diseases
 
 This repository contains the code used to produce the results published in [Royal Society Open Science](https://royalsocietypublishing.org/doi/10.1098/rsos.212023)
 
